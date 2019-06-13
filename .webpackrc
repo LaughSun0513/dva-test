@@ -1,0 +1,5 @@
+{
+  "extraBabelPlugins": [
+    ["import", { "libraryName": "@alifd/next", "libraryDirectory": "es", "style": "scss" }]
+  ]
+}
