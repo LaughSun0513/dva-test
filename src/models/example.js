@@ -1,6 +1,18 @@
 import {mockData} from '../../mock';
 
 const log = console.log;
+function calu(){
+  return Array.prototype.reduce.call(arguments,(a,b)=>{
+      let ret = [];
+      a.forEach((a)=>{
+        b.forEach((b)=>{
+          ret.push(a.concat([b]));
+        })
+      });
+      return ret;
+  },[[]]);
+
+}
 
 export default {
   namespace: 'example',
@@ -56,21 +68,24 @@ export default {
         ...state.selected,
         ...action.payload
       }
+      let res = Object.values(state.selected);
+      let a = calu(...res);
+      log(a);
       //根据选择的值进行table数据的改动
-      let newSelectValve = state.selected;
-      let newTable = [];
-      if(newSelectValve.hasOwnProperty('product_color')){
-          let colorList = newSelectValve['product_color'];
-          newTable = colorList.map(item=>{
-            return {
-              color:item,
-              size:newSelectValve['product_size'],
-              shape:newSelectValve['product_shape']
-            }
-          });
-          log(newTable);
-      }
-      state.tableData = newTable;
+      // let newSelectValve = state.selected;
+      // let newTable = [];
+      // if(newSelectValve.hasOwnProperty('product_color')){
+      //     let colorList = newSelectValve['product_color'];
+      //     newTable = colorList.map(item=>{
+      //       return {
+      //         color:item,
+      //         size:newSelectValve['product_size'],
+      //         shape:newSelectValve['product_shape']
+      //       }
+      //     });
+      //     log(newTable);
+      // }
+      // state.tableData = newTable;
       return state;
     },
    
