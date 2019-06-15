@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'dva';
 import { Checkbox,Form,Field,Table } from '@alifd/next';
-
+import '@alifd/next/dist/next.css';
 
 const { Group } = Checkbox;
 const FormItem = Form.Item;
@@ -15,18 +15,25 @@ const formItemLayout = {
       span: 14
   }
 };
+
+const renderSize = (list) => {
+  return list && list.map((item,index)=>{
+    return (
+      <div key={index}>{item}</div>
+    )
+  })
+}
+
  class IndexPage extends React.Component{
   constructor(props){
     super(props);
     this.field = new Field(this,{onChange:this.onHandleChange.bind(this)});
   }
   onHandleChange(name,value){
-    console.log(name,value);
     let data = {
-      name:name,
-      value:value
+      [name]:value
     }
-    this.props.dispatch({type:'example/updateSelectedValue',data})
+    this.props.dispatch({type:'example/updateSelectedValue',payload:data})
   }
    componentDidMount(){
      this.props.dispatch({
@@ -37,6 +44,7 @@ const formItemLayout = {
     render(){
       const init = this.field.init;
       const { checkBoxListData , tableData} = JSON.parse(JSON.stringify(this.props.example));
+      console.log(tableData);
       return (
         <div>
           <Form 
@@ -56,11 +64,11 @@ const formItemLayout = {
               }
           </Form>
           <Table
-            dataSource = {tableData}  
+            dataSource = {tableData} 
           >
               <Column title="颜色" dataIndex="color"/>
-              <Column title="尺寸" dataIndex="size"/>
-              <Column title="形状" dataIndex="shape"/>
+              <Column title="尺寸" dataIndex="size" cell={renderSize}/>
+              <Column title="形状" dataIndex="shape" cell={renderSize}/>
           </Table>
         </div>
         

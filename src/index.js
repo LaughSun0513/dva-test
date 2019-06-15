@@ -1,6 +1,5 @@
 import dva from 'dva';
-import './index.css';
-// import '@alifd/next/reset.scss';
+import './index.scss';
 
 // 1. Initialize
 const app = dva();

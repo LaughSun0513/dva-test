@@ -7,21 +7,21 @@ export default {
   state: {
     mockData:mockData,
     selected:{
-      product_color:["blue", "whilt"],
-      product_size:["size_5", "size_7", "size_8"],
-      product_shape:["shape_aquare", "shape_round"]
+      // product_color:["blue", "whilt"],
+      // product_size:["size_5", "size_7", "size_8"],
+      // product_shape:["shape_aquare", "shape_round"]
     },
     tableData:[
-      {
-        color:'blue',
-        size:"size_5",
-        shape:"shape_aquare"
-      },
-      {
-        color:'whilt',
-        size:"size_7",
-        shape: "shape_round"
-      }
+      // {
+      //   color:'blue',
+      //   size:["size_5", "size_7", "size_8"],
+      //   shape:["shape_aquare", "shape_round"]
+      // },
+      // {
+      //   color:'whilt',
+      //   size:["size_5", "size_7", "size_8"],
+      //   shape:["shape_aquare", "shape_round"]
+      // }
     ]
   },
 
@@ -31,7 +31,6 @@ export default {
     },
     //处理后端请求过来的checkbox数据
     handleData(state){
-      log(mockData);
       let checkBoxListData = state.mockData.data && state.mockData.data.map(item=>{
           let childList;
           if(item.children && item.children.length>0){
@@ -53,9 +52,28 @@ export default {
     },
     updateSelectedValue(state,action){
       log(action);
-      let selectData = state.selected;
+      state.selected = {
+        ...state.selected,
+        ...action.payload
+      }
+      //根据选择的值进行table数据的改动
+      let newSelectValve = state.selected;
+      let newTable = [];
+      if(newSelectValve.hasOwnProperty('product_color')){
+          let colorList = newSelectValve['product_color'];
+          newTable = colorList.map(item=>{
+            return {
+              color:item,
+              size:newSelectValve['product_size'],
+              shape:newSelectValve['product_shape']
+            }
+          });
+          log(newTable);
+      }
+      state.tableData = newTable;
       return state;
-    }
+    },
+   
     
   },
   effects: {
